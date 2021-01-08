@@ -17,8 +17,10 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <simbot.version>2.0.0-BETA.5</simbot.version>
-        <druid.version>1.1.22</druid.version>
+        <simbot.version>2.0.0-BETA.6</simbot.version>
+        <okhttp.version>4.5.0</okhttp.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <jsoup.version>1.13.1</jsoup.version>
     </properties>
 
     <dependencyManagement>
@@ -72,12 +74,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!--Druid-->
+        <!--okHttp https://github.com/square/okhttp/-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <!--jsoup-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
