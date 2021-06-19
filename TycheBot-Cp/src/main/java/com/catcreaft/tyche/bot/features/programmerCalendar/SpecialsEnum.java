@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.features.programmerCalendar;
+package com.catcreaft.tyche.bot.features.programmerCalendar;
 
 /**
  * 老黄历实体类

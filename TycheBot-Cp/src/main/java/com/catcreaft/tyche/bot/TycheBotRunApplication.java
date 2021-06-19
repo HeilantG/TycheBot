@@ -1,4 +1,4 @@
-package com.catcreaft.tyche;
+package com.catcreaft.tyche.bot;
 
 import love.forte.simbot.spring.autoconfigure.EnableSimbot;
 import org.springframework.boot.SpringApplication;

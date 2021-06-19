@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.listener;
+package com.catcreaft.tyche.bot.listener;
 
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BaseListener {
-
   @OnGroup
   @Filter(value = "提醒", matchType = MatchType.EQUALS)
   public void remindClass(GroupMsg msg, MsgSender sender) {

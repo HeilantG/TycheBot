@@ -1,6 +1,6 @@
-package com.catcreaft.tyche.listener;
+package com.catcreaft.tyche.bot.listener;
 
-import com.catcreaft.tyche.util.MsgCreate;
+import com.catcreaft.tyche.bot.util.MsgCreate;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.Listen;
 import love.forte.simbot.api.message.events.PrivateMsg;
@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Listen(PrivateMsg.class)
 public class AllPrivateListener {
-  @Autowired MsgCreate msgCreate;
+  @Autowired
+  MsgCreate msgCreate;
 
   @Filter(value = "来.*老黄历.*")
   public void programmerCalendar(PrivateMsg msg, MsgSender sender) {

@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.listener;
+package com.catcreaft.tyche.bot.listener;
 
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.Listen;
@@ -20,12 +20,12 @@ public class RecordListener {
   @OnPrivate
   @Filter
   public void recordPrivate(PrivateMsg privateMsg) {
-    System.out.println(privateMsg.getMsg());
+    System.out.println("收到来自"+privateMsg.getAccountInfo().getAccountCode()+"的私聊消息:"+privateMsg.getMsg());
   }
 
   @OnGroup
   @Filter
   public void recordGroup(GroupMsg groupMsg) {
-    System.out.println(groupMsg.getMsg());
+    System.out.println("收到来自"+groupMsg.getGroupInfo().getGroupCode()+"的群消息消息:"+groupMsg.getMsg());
   }
 }

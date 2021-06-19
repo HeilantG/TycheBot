@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.util;
+package com.catcreaft.tyche.bot.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
