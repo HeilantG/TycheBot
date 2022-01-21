@@ -1,9 +1,9 @@
-package com.catcreaft.tyche.bot.listener;
+package com.catcraft.tyche.bot.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.catcreaft.tyche.bot.features.qqAi.QQAiTalk;
-import com.catcreaft.tyche.bot.util.MsgCreate;
+import com.catcraft.tyche.bot.features.qqAi.QQAiTalk;
+import com.catcraft.tyche.bot.util.MsgCreate;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.Listen;
 import love.forte.simbot.api.message.events.GroupMsg;

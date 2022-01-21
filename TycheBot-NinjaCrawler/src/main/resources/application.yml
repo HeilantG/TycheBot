@@ -1,9 +1,14 @@
+simbot:
+  component:
+    mirai:
+      # 登录协议
+      protocol: android_pad
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/TycheBot?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://127.0.0.1:3306/TychePoe?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
       username: root
       password: chuyinmiku1
       # 初始连接数
@@ -50,5 +55,6 @@ spring:
         ddl-auto: none
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: true
-
+server:
+  port: 8081
 

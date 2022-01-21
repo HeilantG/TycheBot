@@ -1,6 +1,8 @@
-package com.catcreaft.tyche.bot;
+package com.catcraft.tyche.bot;
 
+import com.catcraft.tyche.bot.listener.AllPrivateListener;
 import love.forte.simbot.spring.autoconfigure.EnableSimbot;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableSimbot
 public class TycheBotRunApplication {
+  @Autowired
+  static AllPrivateListener allPrivateListener;
   public static void main(String[] args) {
     SpringApplication.run(TycheBotRunApplication.class, args);
   }
+
 }

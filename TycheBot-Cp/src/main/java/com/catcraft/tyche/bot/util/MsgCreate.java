@@ -1,7 +1,7 @@
-package com.catcreaft.tyche.bot.util;
+package com.catcraft.tyche.bot.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.catcreaft.tyche.bot.features.programmerCalendar.ProgrammerCalendar;
+import com.catcraft.tyche.bot.features.programmerCalendar.ProgrammerCalendar;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
-package com.catcreaft.tyche.bot.features.qqAi;
+package com.catcraft.tyche.bot.features.qqAi;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.catcreaft.tyche.bot.util.StringUtil;
+import com.catcraft.tyche.bot.util.StringUtil;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

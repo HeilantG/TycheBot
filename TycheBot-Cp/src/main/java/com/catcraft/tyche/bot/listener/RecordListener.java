@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.bot.listener;
+package com.catcraft.tyche.bot.listener;
 
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.Listen;

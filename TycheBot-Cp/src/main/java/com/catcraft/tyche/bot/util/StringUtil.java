@@ -1,4 +1,4 @@
-package com.catcreaft.tyche.bot.util;
+package com.catcraft.tyche.bot.util;
 
 import org.springframework.stereotype.Component;
 
