@@ -2,7 +2,7 @@ simbot:
   component:
     mirai:
       # 登录协议
-      protocol: android_pad
+      protocol: ANDROID_PHONE
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
