@@ -19,6 +19,8 @@
     <properties>
         <java.version>11</java.version>
         <simbot.version>3.0.0.preview.7.0</simbot.version>
+        <jsoup.version>1.13.1</jsoup.version>
+        <druid.version>1.2.6</druid.version>
         <simbot-component-kaiheila.version>3.0.0.0.preview.1.1</simbot-component-kaiheila.version>
     </properties>
 
@@ -58,8 +60,48 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
+        <!--mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--JPA-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!--okHttp https://github.com/square/okhttp/-->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!--druid-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+        <!--Jsoup-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+        <!--FastJSON-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
+        </dependency>
     </dependencies>
 
     <!-- 或许还需要其他依赖... -->
@@ -69,8 +111,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- main方法所在类。 -->
+                    <mainClass>com.catcraft.tyche.khl.KhlBotRunApplication</mainClass>
+                </configuration>
             </plugin>
-
         </plugins>
     </build>
 
