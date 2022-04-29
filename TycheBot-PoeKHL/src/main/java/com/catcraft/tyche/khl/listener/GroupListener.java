@@ -4,13 +4,17 @@ import com.catcraft.tyche.khl.controller.DBCrawlerController;
 import com.catcraft.tyche.khl.controller.NINJACrawlerController;
 import com.catcraft.tyche.khl.entity.Currency;
 import com.catcraft.tyche.khl.repository.CurrencyRepository;
+import com.catcraft.tyche.khl.util.CardUtil;
 import love.forte.simboot.annotation.Filter;
 import love.forte.simboot.annotation.FilterValue;
 import love.forte.simboot.annotation.Filters;
 import love.forte.simboot.annotation.Listener;
 import love.forte.simboot.filter.MatchType;
+import love.forte.simbot.component.kaiheila.message.KaiheilaRequestMessage;
 import love.forte.simbot.definition.Channel;
 import love.forte.simbot.event.ChannelMessageEvent;
+import love.forte.simbot.kaiheila.api.message.MessageCreateRequest;
+import love.forte.simbot.kaiheila.api.message.MessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,20 +53,16 @@ public class GroupListener {
             currency.setItemInfo(dbCrawlerController.getItemInfo(currency.getName()));
             currencyRepository.save(currency);
         }
-
-        String stringBuilder = currency.getName() + "\n" +
-                currency.getTranslatedName() + "\n" +
-//                .append("=================\n")
-//                .append(currency.getItemInfo().isEmpty() ? "此物品暂未支持\n" : currency.getItemInfo())
-                "=================\n" +
-                "混沌价值: " + currency.getChaosValue() + "chaos \n" +
-                "崇高价值: " + currency.getExaltedValue() + "ex \n" +
-                "=================\n";
-//        System.out.println(groupMsg.getGroupInfo().getGroupCode());
-//        if (!groupMsg.getGroupInfo().getGroupCode().equals("607221355")) {
-//            stringBuilder.append("Godparadise公会专用查价机器人\n").append("详情请见个人签名\n");
-//        }
-        channel.sendBlocking(stringBuilder);
+        KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                MessageType.CARD.getType(),
+                channel.getId(),
+                CardUtil.makeItemCard(currency.getName(), currency.getTranslatedName(), String.valueOf(currency.getChaosValue()),
+                        String.valueOf(currency.getExaltedValue()), currency.getItemInfo()),
+                channelMessageEvent.getId(),
+                null,
+                null
+        ));
+        channel.sendBlocking(requestMessage);
     }
 
     @Listener

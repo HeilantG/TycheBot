@@ -1,9 +1,16 @@
 package com.catcraft.tyche.khl.listener;
 
+import com.catcraft.tyche.khl.util.CardUtil;
+import love.forte.simboot.annotation.Filter;
+import love.forte.simboot.annotation.Filters;
 import love.forte.simboot.annotation.Listener;
+import love.forte.simbot.component.kaiheila.message.KaiheilaRequestMessage;
 import love.forte.simbot.definition.*;
 import love.forte.simbot.event.*;
+import love.forte.simbot.kaiheila.api.message.MessageCreateRequest;
+import love.forte.simbot.kaiheila.api.message.MessageType;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class AllListener {
@@ -25,4 +32,33 @@ public class AllListener {
 //        Channel channel = channelMessageEvent.getChannel();
 //        channel.sendBlocking(reply);
 //    }
+
+    @Listener
+    @Filters(value = {
+            @Filter(value = "测试卡片"),
+    })
+    public void testGroup(ChannelMessageEvent channelMessageEvent) {
+        System.out.println("onGroup");
+        Channel channel = channelMessageEvent.getChannel();
+        KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                MessageType.CARD.getType(),
+                channel.getId(),
+                CardUtil.makeItemCard("测试", "", "", "", ""),
+                channelMessageEvent.getId(),
+                null,
+                null
+        ));
+        channel.sendBlocking(requestMessage);
+    }
+
+    @Listener
+    @Filters(value = {
+            @Filter(value = "我是谁"),
+    })
+    public void testUsrInfo(ChannelMessageEvent channelMessageEvent) {
+        System.out.println("onGroup");
+        Channel channel = channelMessageEvent.getChannel();
+        channel.sendBlocking(channelMessageEvent.getAuthor().getId() + "|"
+                + channelMessageEvent.getAuthor().getNickname() + "|" + channelMessageEvent.getAuthor().getAvatar());
+    }
 }
