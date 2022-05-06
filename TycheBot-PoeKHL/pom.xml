@@ -18,13 +18,22 @@
 
     <properties>
         <java.version>11</java.version>
-        <simbot.version>3.0.0.preview.8.0</simbot.version>
+        <simbot.version>3.0.0.preview.8.1</simbot.version>
         <jsoup.version>1.13.1</jsoup.version>
         <druid.version>1.2.6</druid.version>
-        <simbot-component-kaiheila.version>3.0.0.0.preview.3.0</simbot-component-kaiheila.version>
+        <simbot-component-kaiheila.version>3.0.0.0.preview.3.1</simbot-component-kaiheila.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core-jvm</artifactId>
+            <version>1.6.1</version>
+        </dependency>
         <!-- 引入你所需要的Spring Boot依赖。这里假设你需要使用 web 相关功能 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,28 +46,11 @@
             <artifactId>simboot-core-spring-boot-starter</artifactId>
             <version>${simbot.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>love.forte.simbot.boot</groupId>
-            <artifactId>simboot-core</artifactId>
-            <version>${simbot.version}</version>
-        </dependency>
-
         <!-- 开黑啦组件 -->
         <dependency>
             <groupId>love.forte.simbot.component</groupId>
             <artifactId>simbot-component-kaiheila-boot</artifactId>
             <version>${simbot-component-kaiheila.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>love.forte.simbot.boot</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>love.forte.simbot</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--mysql-->
         <dependency>
@@ -79,7 +71,8 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-        </dependency>    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

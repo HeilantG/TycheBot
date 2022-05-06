@@ -3,21 +3,33 @@ package com.catcraft.tyche.khl.listener;
 import com.catcraft.tyche.khl.controller.DBCrawlerController;
 import com.catcraft.tyche.khl.controller.NINJACrawlerController;
 import com.catcraft.tyche.khl.entity.Currency;
+import com.catcraft.tyche.khl.entity.User;
+import com.catcraft.tyche.khl.entity.Vouch;
 import com.catcraft.tyche.khl.repository.CurrencyRepository;
+import com.catcraft.tyche.khl.repository.UserRepository;
+import com.catcraft.tyche.khl.repository.VouchRepository;
 import com.catcraft.tyche.khl.util.CardUtil;
 import love.forte.simboot.annotation.Filter;
 import love.forte.simboot.annotation.FilterValue;
 import love.forte.simboot.annotation.Filters;
 import love.forte.simboot.annotation.Listener;
 import love.forte.simboot.filter.MatchType;
+import love.forte.simbot.ID;
 import love.forte.simbot.component.kaiheila.message.KaiheilaRequestMessage;
 import love.forte.simbot.definition.Channel;
+import love.forte.simbot.definition.GuildMember;
+import love.forte.simbot.definition.Member;
 import love.forte.simbot.event.ChannelMessageEvent;
 import love.forte.simbot.kaiheila.api.message.MessageCreateRequest;
 import love.forte.simbot.kaiheila.api.message.MessageType;
+import love.forte.simbot.message.At;
+import love.forte.simbot.message.Message;
+import love.forte.simbot.message.Messages;
+import love.forte.simbot.message.ReceivedMessageContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
 @Component
@@ -27,6 +39,10 @@ public class GroupListener {
     DBCrawlerController dbCrawlerController;
     @Autowired
     CurrencyRepository currencyRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    VouchRepository vouchRepository;
     @Autowired
     NINJACrawlerController ninjaCrawlerController;
 
@@ -91,11 +107,166 @@ public class GroupListener {
                 "混沌价值: " + currency.getChaosValue() + "chaos \n" +
                 "崇高价值: " + currency.getExaltedValue() + "ex \n" +
                 "=================\n";
-//        System.out.println(groupMsg.getGroupInfo().getGroupCode());
-//        if (!groupMsg.getGroupInfo().getGroupCode().equals("607221355")) {
-//            stringBuilder.append("Godparadise公会专用查价机器人\n").append("详情请见个人签名\n");
-//        }
         channel.sendBlocking(stringBuilder);
+    }
+
+
+
+    @Listener
+    @Filters(value = {
+            @Filter(value = "信息 .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "info .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "i .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "c .*", matchType = MatchType.REGEX_MATCHES)
+    })
+    public void userInfo(ChannelMessageEvent channelMessageEvent){
+        ReceivedMessageContent messageContent = channelMessageEvent.getMessageContent();
+        Channel channel = channelMessageEvent.getChannel();
+        Messages messages = messageContent.getMessages();
+        for (Message.Element<?> message : messages) {
+            if(message instanceof At){
+                ID target = ((At) message).getTarget();
+                User byId = userRepository.queryById(target.toString());
+                if (byId  == null){
+                    User user = new User();
+                    user.setId(target.toString());
+                    byId = userRepository.save(user);
+                }
+                int vouchNumber = vouchRepository.countByVouchId(byId.getId());
+                Member info = channel.getMember(target);
+                KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                        MessageType.CARD.getType(),
+                        channel.getId(),
+                        CardUtil.makeInfoCard(info.getAvatar().trim().replaceAll("/icon",""),
+                                info.getNickname(),
+                                byId.getPoeId() == null ? "未绑定" : byId.getPoeId(),
+                                vouchNumber,
+                                byId.isBan()?"已封禁":"正常"),
+                        channelMessageEvent.getId(),
+                        null,
+                        null
+                ));
+                channel.sendBlocking(requestMessage);
+            }
+        }
+    }
+
+
+
+
+    @Listener
+    @Filters(value = {
+            @Filter(value = "点赞 .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "dz .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "vouch .*", matchType = MatchType.REGEX_MATCHES),
+            @Filter(value = "v .*", matchType = MatchType.REGEX_MATCHES)
+    })
+    public void vouchUser(ChannelMessageEvent channelMessageEvent){
+        ReceivedMessageContent messageContent = channelMessageEvent.getMessageContent();
+        Channel channel = channelMessageEvent.getChannel();
+        Messages messages = messageContent.getMessages();
+        String originId = channelMessageEvent.getAuthor().getId().toString();
+
+        for (Message.Element<?> message : messages) {
+            if(message instanceof At){
+                ID target = ((At) message).getTarget();
+                User targetUser = userRepository.queryById(target.toString());
+                if (targetUser  == null){
+                    User user = new User();
+                    user.setId(target.toString());
+                    targetUser = userRepository.save(user);
+                }
+                if(targetUser.getPoeId() == null){
+                    KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                            MessageType.TEXT.getType(),
+                            channel.getId(),
+                            "目标用户还未绑定poe账户，请联系管理员绑定账户哦",
+                            channelMessageEvent.getId(),
+                            null,
+                            null
+                    ));
+                    channel.sendBlocking(requestMessage);
+                    return;
+                }
+                Vouch vouch = vouchRepository.findByOriginIdAndVouchId(originId, targetUser.getId());
+                if(vouch != null){
+                    channel.sendBlocking("您已经vouch过这个用户了哦");
+                }else {
+                    Vouch successVouch = new Vouch();
+                    successVouch.setOriginId(originId);
+                    successVouch.setVouchId(targetUser.getId());
+                    successVouch.setVouchTime(new Date());
+                    vouchRepository.save(successVouch);
+                    Member info = channel.getMember(target);
+                    KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                            MessageType.TEXT.getType(),
+                            channel.getId(),
+                            "您已成功vouch " + info.getNickname(),
+                            channelMessageEvent.getId(),
+                            null,
+                            null
+                    ));
+                    channel.sendBlocking(requestMessage);
+                }
+            }
+        }
+    }
+
+    @Listener
+    @Filter(value = "bd {{poeId}} .*", matchType = MatchType.REGEX_MATCHES)
+    public void bdPoeCount(ChannelMessageEvent channelMessageEvent,
+                           @FilterValue("poeId") String poeId){
+        ReceivedMessageContent messageContent = channelMessageEvent.getMessageContent();
+        Channel channel = channelMessageEvent.getChannel();
+        if(!channel.getId().toString().equals("5765816541663867")){
+            KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                    MessageType.TEXT.getType(),
+                    channel.getId(),
+                    "你在干嘛啊！",
+                    channelMessageEvent.getId(),
+                    null,
+                    null
+            ));
+            channel.sendBlocking(requestMessage);
+            return;
+        }
+        Messages messages = messageContent.getMessages();
+        poeId = poeId.split(" ")[0];
+        for (Message.Element<?> message : messages) {
+            if (message instanceof At) {
+                ID target = ((At) message).getTarget();
+                User targetUser = userRepository.queryById(target.toString());
+                if (targetUser  == null){
+                    User user = new User();
+                    user.setId(target.toString());
+                    targetUser = userRepository.save(user);
+                }
+                if(targetUser.getPoeId() != null){
+                    KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                            MessageType.TEXT.getType(),
+                            channel.getId(),
+                            "警告! 该用户已绑定为 " + targetUser.getPoeId(),
+                            channelMessageEvent.getId(),
+                            null,
+                            null
+                    ));
+                    channel.sendBlocking(requestMessage);
+                    return;
+                }
+                targetUser.setPoeId(poeId);
+                userRepository.save(targetUser);
+                KaiheilaRequestMessage requestMessage = new KaiheilaRequestMessage(new MessageCreateRequest(
+                        MessageType.TEXT.getType(),
+                        channel.getId(),
+                        "已经绑定用户为 " + targetUser.getPoeId(),
+                        channelMessageEvent.getId(),
+                        null,
+                        null
+                ));
+                channel.sendBlocking(requestMessage);
+            }
+        }
+
     }
 
 
@@ -183,5 +354,6 @@ public class GroupListener {
         }
         return currency;
     }
+
 
 }
