@@ -88,4 +88,51 @@ public class CardUtil {
         JSONObject jsonObject = JSON.parseObject(data);
         return "[" + jsonObject.toJSONString() + "]";
     }
+
+    public static String makeInfoCard(String iconUrl, String nickname, String poeID, int vouch, String ban){
+            String data = "   {\n" +
+                    "    \"type\": \"card\",\n" +
+                    "    \"theme\": \"secondary\",\n" +
+                    "    \"size\": \"lg\",\n" +
+                    "    \"modules\": [\n" +
+                    "      {\n" +
+                    "        \"type\": \"section\",\n" +
+                    "        \"text\": {\n" +
+                    "          \"type\": \"kmarkdown\",\n" +
+                    "          \"content\": \"**昵称**\\n "+nickname+" \"\n" +
+                    "        },\n" +
+                    "        \"mode\": \"right\",\n" +
+                    "        \"accessory\": {\n" +
+                    "          \"type\": \"image\",\n" +
+                    "          \"src\": \""+iconUrl+"\",\n" +
+                    "          \"size\": \"sm\"\n" +
+                    "        }\n" +
+                    "      },\n" +
+                    "      {\n" +
+                    "        \"type\": \"section\",\n" +
+                    "        \"text\": {\n" +
+                    "          \"type\": \"paragraph\",\n" +
+                    "          \"cols\": 3,\n" +
+                    "          \"fields\": [\n" +
+                    "            {\n" +
+                    "              \"type\": \"kmarkdown\",\n" +
+                    "              \"content\": \"**poe账号ID**\\n "+poeID+" \"\n" +
+                    "            },\n" +
+                    "            {\n" +
+                    "              \"type\": \"kmarkdown\",\n" +
+                    "              \"content\": \"**vouch总数**\\n "+vouch+" \"\n" +
+                    "            },\n" +
+                    "            {\n" +
+                    "              \"type\": \"kmarkdown\",\n" +
+                    "              \"content\": \"**账号状态**\\n "+ban+" \"\n" +
+                    "            }\n" +
+                    "          ]\n" +
+                    "        }\n" +
+                    "      }\n" +
+                    "    ]\n" +
+                    "  }";
+        JSONObject jsonObject = JSON.parseObject(data);
+            return "["+jsonObject.toJSONString()+"]";
+
+    }
 }
