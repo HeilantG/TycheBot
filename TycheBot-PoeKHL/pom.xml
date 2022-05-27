@@ -18,10 +18,10 @@
 
     <properties>
         <java.version>11</java.version>
-        <simbot.version>3.0.0.preview.8.0</simbot.version>
+        <simbot.version>3.0.0.preview.8.1</simbot.version>
         <jsoup.version>1.13.1</jsoup.version>
         <druid.version>1.2.6</druid.version>
-        <simbot-component-kaiheila.version>3.0.0.0.preview.3.0</simbot-component-kaiheila.version>
+        <simbot-component-kaiheila.version>3.0.0.0.preview.3.1</simbot-component-kaiheila.version>
     </properties>
 
     <dependencies>

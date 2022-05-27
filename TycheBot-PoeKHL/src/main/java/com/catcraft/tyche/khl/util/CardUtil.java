@@ -62,7 +62,7 @@ public class CardUtil {
                 "          {\n" +
                 "            \"type\": \"button\",\n" +
                 "            \"theme\": \"primary\",\n" +
-                "            \"value\": \"https://www.pathofexile.com/trade/search/Archnemesis?q={%22query%22:{%22filters%22:{},%22name%22:%22" + itemName + "%22}}\",\n" +
+                "            \"value\": \"https://www.pathofexile.com/trade/search/Sentinel?q={%22query%22:{%22filters%22:{},%22name%22:%22" + itemName + "%22}}\",\n" +
                 "            \"click\": \"link\",\n" +
                 "            \"text\": {\n" +
                 "              \"type\": \"plain-text\",\n" +

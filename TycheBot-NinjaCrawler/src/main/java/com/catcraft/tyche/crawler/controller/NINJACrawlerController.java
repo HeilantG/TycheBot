@@ -67,7 +67,7 @@ public class NINJACrawlerController {
      */
     @GetMapping("/item/{itemType}/init")
     public String getItemValue(@PathVariable String itemType) {
-        String URL = "https://poe.ninja/api/data/ItemOverview?league=Archnemesis&type=" + itemType + "&language=en";
+        String URL = "https://poe.ninja/api/data/ItemOverview?league=Sentinel&type=" + itemType + "&language=en";
         Response response = OkHttpUtil.getApi(URL);
         String jsonString;
         try {
@@ -103,7 +103,7 @@ public class NINJACrawlerController {
      */
     @GetMapping("/currency/init")
     public String currencyValue() {
-        String URL = "https://poe.ninja/api/data/CurrencyOverview?league=Archnemesis&type=Currency&language=en";
+        String URL = "https://poe.ninja/api/data/CurrencyOverview?league=Sentinel&type=Currency&language=en";
         Response response = OkHttpUtil.getApi(URL);
         String jsonString;
         try {
